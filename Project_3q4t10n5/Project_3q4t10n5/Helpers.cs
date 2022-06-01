@@ -1,9 +1,14 @@
-﻿namespace Project_3q4t10n5;
+﻿using System.Globalization;
+
+namespace Project_3q4t10n5;
 
 public class Helpers
 {
     public double[][] ReadCSV(string path)
     {
+        var fmt = new NumberFormatInfo();
+        fmt.NegativeSign = "−";
+
         var lines = File.ReadAllLines(path);
         double[][] result = new double[lines.Length][];
 
@@ -14,7 +19,7 @@ public class Helpers
 
             for(var j = 0; j < cols.Length; j++)
             {
-                result[i][j] = Convert.ToDouble(cols[j]);
+                result[i][j] = double.Parse(cols[j], fmt);
             }
         }
 
@@ -23,6 +28,13 @@ public class Helpers
 
     public void PrintMatrix(double[][] matrix)
     {
-        Console.WriteLine(matrix);
+        for(int i = 0; i < matrix.Length; i++)
+        {
+            for(int j = 0; j < matrix[i].Length; j++)
+            {
+                Console.Write($"  {matrix[i][j]} ");
+            }
+            Console.WriteLine();
+        }
     }
 }
