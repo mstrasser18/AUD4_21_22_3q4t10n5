@@ -2,7 +2,8 @@
 
 public class Program
 {
-    private readonly static string _file_path = "Files/";
+    private readonly static string FILE_PATH = "Files/";
+    private readonly static string SOLUTION_FILES_PATH = "Files/Solutions";
     private readonly static Helpers _helpers =  new Helpers();
     private readonly static MatrixCalculator _matrixCalculator = new MatrixCalculator();
 
@@ -11,12 +12,15 @@ public class Program
         var currentExample = "Example.csv";
 
         Console.WriteLine("Starting Project_3q4t10n5 \n");
-        Console.WriteLine($"Using Example {_file_path}{currentExample} \n");
+        Console.WriteLine($"Using Example {FILE_PATH}{currentExample} \n");
 
-        var matrix = _helpers.ReadCSV($"{_file_path}{currentExample}");
+        //Read CSV
+        var matrix = _helpers.ReadCSV($"{FILE_PATH}{currentExample}");
 
-        _matrixCalculator.SolveMatrixMatrixMultiplication(matrix, out double[][] a, out double[][] b);
+        //Solve Multiplication
+        _matrixCalculator.SolveMatrixMultiplication(matrix, out double[][] a, out double[][] b);
 
+        //Console Output
         Console.WriteLine("Solution\n");
         Console.WriteLine("Matrix C (Source)");
         _helpers.PrintMatrix(matrix);
@@ -24,6 +28,9 @@ public class Program
         _helpers.PrintMatrix(a);
         Console.WriteLine("\nMatrix B");
         _helpers.PrintMatrix(b);
+
+        //Write CSV
+        _helpers.WriteSolutionCSV(SOLUTION_FILES_PATH, a, b);
 
         Console.ReadKey();
     }

@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Text;
 
 namespace Project_3q4t10n5;
 
@@ -24,6 +25,23 @@ public class Helpers
         }
 
         return result;
+    }
+
+    public void WriteSolutionCSV(string path, double[][] a, double[][] b)           //TODO: Double point, save files in project root
+    {
+        //1 File per Matrix
+
+        //Overwrite old Solution
+        File.WriteAllText($"{path}/A.csv", "");
+        File.WriteAllText($"{path}/B.csv", "");
+
+        a.Select(x => string.Join(";", x))
+         .ToList()
+         .ForEach(x => File.AppendAllText($"{path}/A.csv", $"{x}\n"));
+
+        b.Select(x => string.Join(";", x))
+         .ToList()
+         .ForEach(x => File.AppendAllText($"{path}/B.csv", $"{x}\n"));
     }
 
     public void PrintMatrix(double[][] matrix)

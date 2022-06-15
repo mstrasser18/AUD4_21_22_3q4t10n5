@@ -8,13 +8,18 @@ namespace Project_3q4t10n5;
 
 public class MatrixCalculator
 {
-    public void SolveMatrixMatrixMultiplication(double[][] c, out double[][] a, out double[][] b)
+    public void SolveMatrixMultiplication(double[][] c, out double[][] a, out double[][] b)
     {
         CreateTemplateMatrices(c.Length, out a, out b);
 
+        if(c.Length != c[1].Length || c.Length < 2)
+        {
+            Console.WriteLine("Invalid Matrix Length/Format!");
+            return;
+        }
+
         //Hartcoded for 3x3 Matrices
         Solve3x3MatricesHardcoded(c, a, b);
-
     }
 
     private void CreateTemplateMatrices(int size, out double[][] a, out double[][] b)
@@ -61,6 +66,6 @@ public class MatrixCalculator
         //a32
         a[2][1] = (c[2][1]-a[2][0]*b[0][1]) / b[1][1];
         //b33
-        b[2][2] = c[2][2] - a[2][0] * b[0][2] - a[2][1] * b[1][2];
+        b[2][2] = c[2][2] - a[2][0] * b[0][2] - a[2][1] * b[1][2];   
     }
 }
