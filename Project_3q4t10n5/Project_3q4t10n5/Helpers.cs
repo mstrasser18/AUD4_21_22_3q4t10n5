@@ -27,7 +27,7 @@ public class Helpers
         return result;
     }
 
-    public void WriteSolutionCSV(string path, double[][] a, double[][] b)           //TODO: Double point, save files in project root
+    public void WriteSolutionCSV(string path, double[][] a, double[][] b)
     {
         //1 File per Matrix
 
@@ -35,11 +35,11 @@ public class Helpers
         File.WriteAllText($"{path}/A.csv", "");
         File.WriteAllText($"{path}/B.csv", "");
 
-        a.Select(x => string.Join(";", x))
+        a.Select(x => string.Join(";", x.Select(x => x.ToString("0.00")).ToArray()))
          .ToList()
          .ForEach(x => File.AppendAllText($"{path}/A.csv", $"{x}\n"));
 
-        b.Select(x => string.Join(";", x))
+        b.Select(x => string.Join(";", x.Select(x => x.ToString("0.00")).ToArray()))
          .ToList()
          .ForEach(x => File.AppendAllText($"{path}/B.csv", $"{x}\n"));
     }

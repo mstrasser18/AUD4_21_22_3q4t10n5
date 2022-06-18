@@ -3,7 +3,7 @@
 public class Program
 {
     private readonly static string FILE_PATH = "Files/";
-    private readonly static string SOLUTION_FILES_PATH = "Files/Solutions";
+    private readonly static string SOLUTION_FILES_PATH = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "/Files/Solutions";
     private readonly static Helpers _helpers =  new Helpers();
     private readonly static MatrixCalculator _matrixCalculator = new MatrixCalculator();
 
