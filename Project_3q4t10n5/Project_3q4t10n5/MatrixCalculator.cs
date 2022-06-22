@@ -1,28 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Project_3q4t10n5;
+﻿namespace Project_3q4t10n5;
 
 public class MatrixCalculator
 {
+    /*
+     * Methode zum Lösen der umgekehrten Matrixmultiplikation (dynamisch)
+     */
     public void SolveMatrixMultiplication(double[][] c, out double[][] a, out double[][] b)
     {
-        CreateTemplateMatrices(c.Length, out a, out b);
+        //Lösungsmatritzen erstellen
+        CreateEmptySolutionMatrices(c.Length, out a, out b);
 
-        if(c.Length != c[1].Length || c.Length < 2)
+        //Dynamische Lösung (siehe Erkenntnisse unten)
+        for (int i = 0; i < c.Length; i++)
         {
-            Console.WriteLine("Invalid Matrix Length/Format!");
-            return;
-        }
+            for(int j = 0; j < c[i].Length; j++)
+            {
+                //Unterhalb der Diagonale = a-Wert
+                if(i > j)
+                {
+                    a[i][j] = (c[i][j] - a[i][0] * b[0][j]) / b[j][j];
+                }
+                //Über der Diagonale = b-Wert
+                if(i < j)
+                {
+                    b[i][j] = c[i][j] - (a[i][0] * b[0][j]);
+                }
+                //Diagonalen = b-Wert, a-Diagonale = 1 (bereits generiert)
+                if (i == j)
+                {
+                    double sumOfAB = 0.0;
 
-        //Hartcoded for 3x3 Matrices
-        Solve3x3MatricesHardcoded(c, a, b);
+                    for(int x = 0; x < i ; x++)
+                    {
+                        sumOfAB += a[i][x] * b[x][i];
+                    }
+
+                    b[i][j] = c[i][j] - sumOfAB;
+                }
+            }
+        }
     }
 
-    private void CreateTemplateMatrices(int size, out double[][] a, out double[][] b)
+    /*
+     * Erstellt Lösungs-Template-Matritzen für a und b mit der angegebenen Größe
+     * Fügt die Diagonale A = 1 ein
+     * Defaultwerte für A oberhalb der Diagonale und B unterhalb nicht zu berücksichtigen (double default = 0.0)
+     */
+    private void CreateEmptySolutionMatrices(int size, out double[][] a, out double[][] b)
     {
         a = new double[size][];
 
@@ -31,7 +55,7 @@ public class MatrixCalculator
             a[i] = new double[size];
             for(int j = 0; j < a[i].Length; j++)
             {
-                //Diagonals constant value 1
+                //A-Diagonale = 1
                 if(i == j) a[i][j] = 1;
             }
         }
@@ -41,10 +65,21 @@ public class MatrixCalculator
         for(int i = 0; i < b.Length; i++)
         {
             b[i] = new double[size];
-        } 
+        }
     }
 
 
+    /*
+     * Methode zum Lösen von 3x3 Matritzen (hardcoded)
+     * 
+     * ERKENNTNISSE
+     * 
+     * - Für jedes c gibt es eine durchzuführende Rechenoperation
+     * - Matrix C zeilenweise durchiterieren
+     *      - zuerst a (unter der Diagonale)
+     *      - dann b (über der Diagonale / b-Diagonale selbst)
+     *      
+     */
     private void Solve3x3MatricesHardcoded(double[][] c, in double[][] a, in double[][] b)
     {
         //b11
